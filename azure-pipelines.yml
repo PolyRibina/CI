@@ -7,7 +7,7 @@ trigger:
 - master
 
 pool:
-  vmImage: 'windows-latest'
+  vmImage: 'VS2017-Win2016'
 
 variables:
   solution: '**/*.sln'
@@ -15,7 +15,7 @@ variables:
   buildConfiguration: 'Release'
 
 steps:
-- task: NuGetToolInstaller@1
+- task: NuGetToolInstaller@0
 
 - task: NuGetCommand@2
   inputs:
@@ -32,32 +32,12 @@ steps:
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
 
-steps:
-- task: DownloadBuildArtifacts@0
-  displayName: 'Download Build Artifacts'
+- task: PublishBuildArtifacts@1
   inputs:
-    artifactName: drop
-    itemPattern: '*.exe'
-
-steps:
-- task: ArchiveFiles@2
-  displayName: 'Archive $(Agent.ReleaseDirectory)\PolyRibina.CI\drop\WindowsFormsApp1\bin\Release\'
-  inputs:
-    rootFolderOrFile: '$(Agent.ReleaseDirectory)\PolyRibina.CI\drop\WindowsFormsApp1\bin\Release\'
-    archiveFile: '$(Agent.ReleaseDirectory)\PolyRibina.CI\drop\$(Build.BuildId).zip'
-    verbose: true
-
-steps:
-- task: GitHubRelease@0
-  displayName: 'GitHub release (create)'
-  inputs:
-    gitHubConnection: PolyRibina
-    repositoryName: PolyRibina/CI
-    tagSource: manual
-    tag: '$(Release.ReleaseName)'
-    title: '$(Release.ReleaseName)'
-    releaseNotesSource: input
-    releaseNotes: '$(Release.ReleaseName)'
-    assets: |
-     $(Agent.ReleaseDirectory)\PolyRibina.CI\drop\*.zip
+    pathtoPublish: '$(Build.SourcesDirectory)' 
+    artifactName: 'drop' 
+    publishLocation: 'Container' # Options: container, filePath
+    targetPath: # Required when publishLocation == FilePath
+  #parallel: false # Optional
+  #parallelCount: # Optional
 
