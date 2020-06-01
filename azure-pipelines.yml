@@ -52,12 +52,12 @@ steps:
   displayName: 'GitHub release (create)'
   inputs:
     gitHubConnection: PolyRibina
-    repositoryName: PolyRibina/WindowsFormsApp1
+    repositoryName: PolyRibina/CI
     tagSource: manual
     tag: '$(Release.ReleaseName)'
     title: '$(Release.ReleaseName)'
     releaseNotesSource: input
     releaseNotes: '$(Release.ReleaseName)'
     assets: |
-     $(Agent.ReleaseDirectory)\PolyRibina.WindowsFormsApp1\drop\*.zip
+     $(Agent.ReleaseDirectory)\PolyRibina.CI\drop\*.zip
 
