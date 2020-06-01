@@ -10,7 +10,7 @@ namespace UnitTestProject1
         [TestMethod]
         public void TestMethod1()
         {
-            string actError, expError = "Нет корней";
+            string actError, expError = "Нет корней ";
             double[] expResult = new double[0];
             int a = 2, b = 6, c = 9;
             double[] actResult = Class1.Mathing(a, b, c, out actError);
